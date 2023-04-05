@@ -82,8 +82,8 @@ function updateCalculation (button) {
             if (currentSymbol === "0" && num2==="0") currentSymbol=""; //
             num2 += currentSymbol;
         };
-        if (num1.toString().startsWith("0") && num1.length > 1 && !num1.includes(".")) num1 = num1.slice(1);
-        if (num2.toString().startsWith("0") && num2.length > 1 && !num2.includes(".")) num1 = num1.slice(1);
+        if (num1.toString().startsWith("0") && num1.length > 1 && !num1.includes(".")) num1 = num1.slice(1); // bugs
+        if (num2.toString().startsWith("0") && num2.length > 1 && !num2.includes(".")) num2 = num2.slice(1); // bugs
 
         displayTop.innerText = num1 + operator + num2; 
     };
