@@ -17,7 +17,19 @@
 
 .display {   
     height: 15%;
-    background-color: gray;
+    background-color: rgb(222, 222, 222);
+    border: 5px solid gray;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.display>p {
+    color: rgb(98, 98, 98);
+    font-size: 40px;
+    font-family: monospace;
+    text-align: right;
+    margin-right:10px;
 }
 
 .buttons {
@@ -72,10 +84,3 @@ button {
     border-radius: 6px;
     font-size: 25px;
 }
-
-break{
-    flex-basis: 100%;
-    width: 0px; 
-    height: 0px; 
-    overflow: hidden;
-  }

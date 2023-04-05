@@ -18,13 +18,16 @@ function multiply(num1, num2) {
 };
 
 function divide(num1, num2) {
-    if (num2 === 0 || num2 === "0") {
+    if (num2 == 0) {
         alert("Can`t divide by 0!");
         clear();
         return "";
     }
     return parseFloat(num1) / parseFloat(num2);
 };
+
+const displayTop = document.querySelector("#display-top");
+const displayBottom = document.querySelector("#display-bottom");
 
 const buttonsList = document.querySelectorAll("button");
 buttonsList.forEach(button => button.addEventListener("click", () => updateCalculation(button)))
@@ -44,56 +47,68 @@ function clear() {
     num2 = "";
     operator = "";
     lastOperatorWasEqual = false;
+    displayTop.innerText="0";
+    displayBottom.innerText="";
 };
+
+function getResult(num1, num2, operator) {
+    if(num1===".") num1=0;
+    if(num2===".") num2=0;
+    if(num1==="") num1=0;
+    result = operate(num1, num2, operator);
+    num1 = result;
+    num2 = "";
+    return [num1, num2, result]
+}
 
 function updateCalculation (button) {
     
     if (button.id==="clear") clear();
 
+
+    //0. + should display as "0+"" instead of "0.+""
     if (numberButtons.includes(button)) {
+        let currentSymbol = button.textContent.toString();
+        console.log(currentSymbol)
         if (operator === "") {
-            if (button.id === "decimal" && num1.toString().includes(".")) return ;
-            if (lastOperatorWasEqual) (num1="");
-            num1 += button.textContent;
-            console.log(`num1: ${num1}\nnum2: ${num2}`)
+            if (lastOperatorWasEqual) (num1="", lastOperatorWasEqual=false, displayBottom.innerText = '');
+            if (currentSymbol === "." && num1.toString().includes(".")) currentSymbol="" ; 
+            if (currentSymbol === "." && num1==0) num1="0.", currentSymbol="";
+            if (currentSymbol === "0" && num1==="0") currentSymbol="";
+            num1 += currentSymbol;
         } else {
-            if (button.id === "decimal" && num2.toString().includes(".")) return ;
-            num2 += button.textContent;
-            console.log(`num1: ${num1}\nnum2: ${num2}`)
+            if (currentSymbol === "." && num2.toString().includes(".")) currentSymbol="";
+            if (currentSymbol === "." && num2==0) num2="0.", currentSymbol="";
+            if (currentSymbol === "0" && num2==="0") currentSymbol=""; //
+            num2 += currentSymbol;
         };
+        if (num1.toString().startsWith("0") && num1.length > 1 && !num1.includes(".")) num1 = num1.slice(1);
+        if (num2.toString().startsWith("0") && num2.length > 1 && !num2.includes(".")) num1 = num1.slice(1);
+
+        displayTop.innerText = num1 + operator + num2; 
     };
 
     if (button.id === "equals" && num2 != "" && operator != "") {
-        if(num1===".") num1=0;
-        if(num2===".") num2=0;
-        if(num1==="") num1=0;
-        result = operate(num1, num2, operator);
-        num1 = result;
-        num2 = "";
+        [num1, num2, result] = getResult(num1, num2, operator);
         operator = "";
         lastOperatorWasEqual = true;
-
-        console.log(`equals: ${result}`);
-        console.log(`num1: ${num1}\nnum2: ${num2}`)    
+        if(displayTop.innerText != 0) displayTop.innerText+="=";
+        displayBottom.innerText=result;   
     };
 
     if (operatorButtons.includes(button)) {
-        if(num2 === "") {
-            operator = button.textContent;            
+        if(num1==="") num1=0;
+        if(num2==="") {
+            operator = button.textContent;
+            displayTop.innerText=num1+operator; 
         } else {
-            if(num1===".") num1=0;
-            if(num2===".") num2=0;
-            if(num1==="") num1=0;
-            result = operate(num1, num2, operator);
-            num1 = result;
-            num2 = "";
+            [num1, num2, result] = getResult(num1, num2, operator);
             operator = button.textContent;
             lastOperatorWasEqual = false;
-
-            console.log(`equals: ${result}`);
-            console.log(`num1: ${num1}\nnum2: ${num2}`)    
+            if(num1==="") num1="0";
+            displayTop.innerText=num1+operator;
+            displayBottom.innerText=result; 
         };    
     };
 
 };
-
