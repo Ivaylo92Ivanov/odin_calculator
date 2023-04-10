@@ -4,10 +4,11 @@ const displayBottom = document.querySelector("#display-bottom");
 const buttonsList = document.querySelectorAll("button");
 buttonsList.forEach(button => button.addEventListener("click", () => assignButtonToAction(button)));
 
-const specialButtons = Array.from(document.querySelectorAll(".special-buttons>button"));
 const numberButtons = Array.from(document.querySelectorAll(".number-buttons>button"));
 const operatorButtons = Array.from(document.querySelectorAll(".operation-buttons>button"));
 const equalsButton = operatorButtons.splice(operatorButtons.indexOf("button#equals"), 1)[0];
+
+
 
 let num1 = "";
 let num2 = "";
@@ -80,6 +81,7 @@ function updateNumbers (num1, num2, operator, button){
     if (num1.toString().startsWith("0") && num1.length > 1 && !num1.includes(".")) num1 = num1.slice(1);
     if (num2.toString().startsWith("0") && num2.length > 1 && !num2.includes(".")) num2 = num2.slice(1);
     displayTop.innerText = num1 + operator + num2;
+    console.log(displayTop.innerText)
     return [num1, num2, operator]
 };
 
@@ -89,7 +91,7 @@ function equate(num1, num2, operator) {
     lastOperatorWasEqual = true;
     if(displayTop.innerText != 0) displayTop.innerText+="=";
     displayBottom.innerText=result;
-    return [num1, num2, operator, result]
+    return [num1, num2, operator, result];
 };
 
 function updateCalculation (num1, num2, operator, button) {
@@ -105,11 +107,26 @@ function updateCalculation (num1, num2, operator, button) {
         displayTop.innerText=num1+operator;
         displayBottom.innerText=result; 
     };
-    return [num1, num2, operator]
+    return [num1, num2, operator];
+};
+
+function eraseLast(num1, num2, operator, lastOperatorWasEqual) {
+    if (lastOperatorWasEqual === true && num2 =="") return [num1, num2];
+    if (operator === "") {
+        num1 = num1.slice(0, -1);
+        
+    } else {
+        num2 = num2.slice(0, -1);
+    };
+    displayTop.innerText = num1 + operator + num2;
+    if (displayTop.innerText === "") displayTop.innerText += "0";
+    return [num1, num2]
 };
 
 function assignButtonToAction(button) {
-    if (button.id==="clear") {
+    if (button.id==="delete") {
+        [num1, num2] = eraseLast(num1, num2, operator, lastOperatorWasEqual);
+    } else if (button.id==="clear") {
         clear();
     } else if (numberButtons.includes(button)) {
         [num1, num2, operator] = updateNumbers(num1, num2, operator, button); 
