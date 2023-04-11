@@ -67,6 +67,10 @@
     flex-grow: 0.3;
 }
 
+.special-buttons > button {
+    background-color: rgb(255, 121, 4);
+}
+
 .operation-buttons {
     display: flex;
     flex: 1;

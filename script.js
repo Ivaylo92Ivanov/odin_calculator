@@ -63,8 +63,7 @@ function getResult(num1, num2, operator) {
 };
 
 function updateNumbers (num1, num2, operator, button){
-    //0. + should display as "0+"" instead of "0.+""
-    // should cut longer decimal numbers short, so we can fit calculation in the screen
+        // should cut longer decimal numbers short, so we can fit calculation in the screen
     let currentSymbol = button.textContent.toString();
     if (operator === "") {
         if (lastOperatorWasEqual) (num1="", lastOperatorWasEqual=false, displayBottom.innerText = '');
@@ -94,6 +93,18 @@ function equate(num1, num2, operator) {
     return [num1, num2, operator, result];
 };
 
+function eraseLast(num1, num2, operator, lastOperatorWasEqual) {
+    if (lastOperatorWasEqual === true && num2 =="") return [num1, num2];
+    if (operator === "") {
+        num1 = num1.slice(0, -1);
+    } else {
+        num2 = num2.slice(0, -1);
+    };
+    displayTop.innerText = num1 + operator + num2;
+    if (displayTop.innerText === "") displayTop.innerText += "0";
+    return [num1, num2]
+};
+
 function updateCalculation (num1, num2, operator, button) {
     if(num1==="") num1=0;
     if(num2==="") {
@@ -108,19 +119,6 @@ function updateCalculation (num1, num2, operator, button) {
         displayBottom.innerText=result; 
     };
     return [num1, num2, operator];
-};
-
-function eraseLast(num1, num2, operator, lastOperatorWasEqual) {
-    if (lastOperatorWasEqual === true && num2 =="") return [num1, num2];
-    if (operator === "") {
-        num1 = num1.slice(0, -1);
-        
-    } else {
-        num2 = num2.slice(0, -1);
-    };
-    displayTop.innerText = num1 + operator + num2;
-    if (displayTop.innerText === "") displayTop.innerText += "0";
-    return [num1, num2]
 };
 
 function assignButtonToAction(button) {
