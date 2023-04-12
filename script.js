@@ -10,6 +10,18 @@ const equalsButton = operatorButtons.splice(operatorButtons.indexOf("button#equa
 
 
 
+addEventListener("keydown", function (e) {
+    if (!isNaN(e.key) || e.key === ".") {
+        console.log(e.key);
+        let currentButton = NaN;
+        buttonsList.forEach(button => {if(button.id === `num${e.key}`) currentButton=button});
+        console.log(currentButton);
+        [num1, num2, operator] = updateNumbers(num1, num2, operator, currentButton);
+    };
+});
+
+
+
 let num1 = "";
 let num2 = "";
 let operator = "";
@@ -62,8 +74,7 @@ function getResult(num1, num2, operator) {
     return [num1, num2, result]
 };
 
-function updateNumbers (num1, num2, operator, button){
-        // should cut longer decimal numbers short, so we can fit calculation in the screen
+function updateNumbers (num1, num2, operator, button) {
     let currentSymbol = button.textContent.toString();
     if (operator === "") {
         if (lastOperatorWasEqual) (num1="", lastOperatorWasEqual=false, displayBottom.innerText = '');
@@ -80,7 +91,6 @@ function updateNumbers (num1, num2, operator, button){
     if (num1.toString().startsWith("0") && num1.length > 1 && !num1.includes(".")) num1 = num1.slice(1);
     if (num2.toString().startsWith("0") && num2.length > 1 && !num2.includes(".")) num2 = num2.slice(1);
     displayTop.innerText = num1 + operator + num2;
-    console.log(displayTop.innerText)
     return [num1, num2, operator]
 };
 
