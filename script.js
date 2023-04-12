@@ -8,6 +8,11 @@ const numberButtons = Array.from(document.querySelectorAll(".number-buttons>butt
 const operatorButtons = Array.from(document.querySelectorAll(".operation-buttons>button"));
 const equalsButton = operatorButtons.splice(operatorButtons.indexOf("button#equals"), 1)[0];
 
+let num1 = "";
+let num2 = "";
+let operator = "";
+let lastOperatorWasEqual = false;
+
 addEventListener("keydown", function (e) {
     if (!isNaN(e.key) || e.key === ".") {
         console.log(e.key);
@@ -17,11 +22,6 @@ addEventListener("keydown", function (e) {
         [num1, num2, operator] = updateNumbers(num1, num2, operator, currentButton);
     };
 });
-
-let num1 = "";
-let num2 = "";
-let operator = "";
-let lastOperatorWasEqual = false;
 
 function clear() {
     num1 = "";
