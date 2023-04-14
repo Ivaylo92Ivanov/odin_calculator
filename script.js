@@ -13,16 +13,6 @@ let num2 = "";
 let operator = "";
 let lastOperatorWasEqual = false;
 
-addEventListener("keydown", function (e) {
-    if (!isNaN(e.key) || e.key === ".") {
-        console.log(e.key);
-        let currentButton = NaN;
-        buttonsList.forEach(button => {if(button.id === `num${e.key}`) currentButton=button});
-        console.log(currentButton);
-        [num1, num2, operator] = updateNumbers(num1, num2, operator, currentButton);
-    };
-});
-
 function clear() {
     num1 = "";
     num2 = "";
@@ -96,7 +86,7 @@ function equate(num1, num2, operator) {
     lastOperatorWasEqual = true;
     if(displayTop.innerText != 0) displayTop.innerText+="=";
     displayBottom.innerText=result;
-    return [num1, num2, operator, result];
+    return [num1, num2, operator];
 };
 
 function eraseLast(num1, num2, operator, lastOperatorWasEqual) {
@@ -140,3 +130,21 @@ function assignButtonToAction(button) {
         [num1, num2, operator] = updateCalculation(num1, num2, operator, button); 
     };
 };
+
+
+//Keyboard support
+addEventListener("keydown", function (e) {
+    let currentButton = NaN;
+    let operatorButtonsContent = operatorButtons.map(operatorButton => operatorButton.textContent);
+    if (!isNaN(e.key) || e.key === ".") {
+        buttonsList.forEach(button => {if(button.id === `num${e.key}`) currentButton=button});
+        [num1, num2, operator] = updateNumbers(num1, num2, operator, currentButton);
+    } else if (operatorButtonsContent.includes(e.key)) {
+        operatorButtons.forEach(button => {if(button.textContent === e.key) currentButton=button});
+        [num1, num2, operator] = updateCalculation(num1, num2, operator, currentButton);
+    } else if (e.key==="Enter" && num2 != "" && operator != "") {
+        [num1, num2, operator] = equate(num1, num2, operator);
+    } else if (e.key==="Backspace") {
+        [num1, num2] = eraseLast(num1, num2, operator, lastOperatorWasEqual);
+    };
+});
