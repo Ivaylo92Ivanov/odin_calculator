@@ -7,6 +7,29 @@ body {
     background-color: rgb(177, 246, 177);
 }
 
+h1 {
+    text-align: center;
+    margin: 35px auto 0 auto;
+    background-color: black;
+    color: white;
+    width: 540px;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: white;
+}
+
+a:hover {
+    color: white;
+    font-size: 45px;
+}
+
 .calculator {
     width: 500px;
     min-height: 600px;
@@ -95,15 +118,23 @@ button {
 }
 
 .copyright {
-    text-decoration: none;
     background-color: black;
     color: white;
     margin:55px auto 0 auto;
+    padding: 5px;
     display: flex;
     font-size: 25px;
     justify-content: center;
     gap: 5px;
     text-align: center;
-    width: 560px;
+    width: 550px;
     border-radius: 8px;
+}
+
+.copyright:visited {
+    color: white;
+}
+
+.copyright:hover {
+    font-size: 45px;    
 }
